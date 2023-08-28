@@ -104,4 +104,19 @@ CONDICIONALES:
 IF:
 if expresion:instruccion
 
+OPERADORES DE COMPARACIÓN
+
+== -> igualdad
+!= -> distinto
+>= -> mayor o igual
+<= -> menor o igual
+> -> mayor
+< -> menor
+and -> y
+or -> o
+not -> no
 """
+
+#else if = elif
+
+#assert: assert <boolean>. Si es verdadero, no pasa nada. Si es falso, da error. 
