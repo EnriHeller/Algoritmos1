@@ -87,13 +87,13 @@ HAY QUE TRATAR DE NO USAR VARIABLES GLOBALES. UNA VARIABLE GLOBAL QUE CAMBIA DE 
 
 """
 #Si quiero que una variable sea de un tipo en específico (no cambia en como funciona el programa, es solo documentación. Se llama type hints):
-def cuad(x:float -> int)
+def cuad(x:float)-> int : "expect float, return int"
 
 #Si tiene una sola linea la instrucción, no hace falta que haga un espacio, puedo hacerlo en una sola linea. 
 
 #Instrucción pass: Si se cumple una condición, podes "pasar" de resolverla.
 
-def funcion_que_no_hace_nada: pass
+def funcion_que_no_hace_nada(): pass
 
 # esta_es_la_forma_de_poner_nombres_a_las_funciones_por_convención
 # las variables en minuscula.
