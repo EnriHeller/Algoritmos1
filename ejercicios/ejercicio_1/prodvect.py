@@ -22,7 +22,7 @@ assert mi_funcion(754, 968, 956, 231, 901, -31) == (-891364, 244210, 455746)
 
 #4.6) Renombrar la función y las variables de forma que sus nombres sean representativos: 
 
-def producto_vectorial_v1(x1, y1, z1, x2, y2, z2):
+def producto_vectorial(x1, y1, z1, x2, y2, z2):
     """Recibe las coordenadas de dos vectores en R3 y devuelve el producto vectorial"""
     x_res = y1*z2 - z1*y2
     y_res = z1*x2 - x1*z2 
