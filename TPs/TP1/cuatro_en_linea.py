@@ -1,6 +1,6 @@
 from typing import List
 
-
+#Funciones auxialiares
 def validar_dimensiones_tablero(n_filas: int, n_columnas: int) -> None:
 
     assert type(n_filas) == int, "El numero de filas debe ser entero"
@@ -9,6 +9,40 @@ def validar_dimensiones_tablero(n_filas: int, n_columnas: int) -> None:
     assert type(n_columnas) == int, "El numero de columnas debe ser entero"
     assert n_columnas >= 3, "El numero de columnas debe ser mayor o igual a 3" 
 
+def contar_casilleros_llenos(tablero: List[List[str]]) -> int:
+    """
+    DOC
+    """
+    total = 0
+
+    for fila in tablero:
+        for col in fila:
+            if col != " ": total += 1
+
+    return total
+
+def es_columna_valida(tablero: List[List[str]], columna: int) -> bool:
+    if type(columna) != int:
+        print("Ha ingresado una columna invalida: Intente nuevamente")
+        return False
+
+    if not (columna in range(0,len(tablero[0]))):
+        print("Columna fuera de rango. Intente nuevamente.")
+        return False
+
+    if tablero[0][columna] != " ":
+        print("La columna ingresada ya esta llena. Intente nuevamente")
+        return False
+
+    return True
+
+def coordenadas_elemento(tablero, elemento):
+    for i in range(len(tablero)):
+        for j in range(len(tablero[i])):
+            if tablero[i][j] is elemento:
+                return i,j
+
+#Fin Funciones auxiliares
 
 def crear_tablero(n_filas: int, n_columnas: int) -> List[List[str]]:
     """Crea un nuevo tablero de cuatro en línea, con dimensiones
@@ -49,16 +83,6 @@ def crear_tablero(n_filas: int, n_columnas: int) -> List[List[str]]:
     
     return tablero
 
-def contar_casilleros_llenos(tablero: List[List[str]]) -> int:
-    
-    total = 0
-
-    for fila in tablero:
-        for col in fila:
-            if col != " ": total += 1
-
-    return total
-
 def es_turno_de_x(tablero: List[List[str]]) -> bool:
     """Dado un tablero, devuelve True si el próximo turno es de X. Si, en caso
     contrario, es el turno de O, devuelve False.
@@ -82,23 +106,6 @@ def es_turno_de_x(tablero: List[List[str]]) -> bool:
 
     return True
 
-
-def es_columna_valida(tablero: List[List[str]], columna: int) -> bool:
-    if type(columna) != int:
-        print("Ha ingresado una columna invalida: Intente nuevamente")
-        return False
-
-    if tablero[0][columna] != " ":
-        print("La columna ingresada ya esta llena. Intente nuevamente")
-        return False
-
-    if not (columna in range(0,len(tablero[0]))):
-        print("Columna fuera de rango. Intente nuevamente.")
-        return False
-
-    return True
-
-
 def insertar_simbolo(tablero: List[List[str]], columna: int) -> bool:
     """Dado un tablero y un índice de columna, se intenta colocar el símbolo del
     turno actual en dicha columna.
@@ -115,26 +122,18 @@ def insertar_simbolo(tablero: List[List[str]], columna: int) -> bool:
     """
     
     if(es_columna_valida(tablero, columna)):
-        for fila in range(len(tablero)):
+        for fila in range(len(tablero)-1,-1,-1):
             
-            "columna_seleccionada = tablero[fila][columna]"
-
             if(tablero[fila][columna] == " "):
-                print("La fila es", tablero[fila])
                 if(es_turno_de_x(tablero)):
                     tablero[fila][columna] = "X"
-                    print("La fila modificada es", tablero[fila])
-
-                    print(tablero)
                     return True
                 else:
                     tablero[fila][columna] = "O"
-                    print("La fila modificada es", tablero[fila])
                     return True
     
+    print(f"columna insertada {columna}")
     return False
-            
-
 
 
 def tablero_completo(tablero: List[List[str]]) -> bool:
@@ -146,6 +145,11 @@ def tablero_completo(tablero: List[List[str]]) -> bool:
         - el parámetro `tablero` fue inicializado con la función `crear_tablero`
     """
 
+    casilleros_totales = len(tablero) * len(tablero[0])
+    if(contar_casilleros_llenos(tablero) != casilleros_totales):
+        return False
+    return True
+
 
 def obtener_ganador(tablero: List[List[str]]) -> str:
     """Dado un tablero, devuelve el símbolo que ganó el juego.
@@ -155,7 +159,7 @@ def obtener_ganador(tablero: List[List[str]]) -> str:
     En el caso que el juego no tenga ganador, devuelve el símbolo vacío.
     En el caso que ambos símbolos cumplan con la condición de cuatro en línea,
     la función devuelve cualquiera de los dos.
-
+¿
     PRECONDICIONES:
         - el parámetro `tablero` fue inicializado con la función `crear_tablero`
 
@@ -170,3 +174,33 @@ def obtener_ganador(tablero: List[List[str]]) -> str:
             [' ', 'O', 'O', 'X', 'X', 'X', 'O'],
         ]
     """
+    for fila_actual in tablero:
+        for col_actual in fila_actual:
+
+            iterador_posicion = col_actual
+
+            i, j = coordenadas_elemento(tablero, iterador_posicion)
+
+            contador = 1
+            
+            movimientos_posibles = [
+                [i+1,j],[i-1,j],
+                [i,j+1],[i,j-1],
+                [i+1,j+1],[i+1, j-1],
+                [i-1,j+1],[i-1, j-1]
+            ]
+
+            for movimiento in movimientos_posibles:
+                while True:
+                    nueva_posicion = tablero[movimiento[0]][movimiento[1]]
+                    if nueva_posicion is col_actual:
+                        contador += 1
+                        iterador_posicion = nueva_posicion
+                    else:
+                        break
+                        
+                    if contador == 4:
+                        print(f"Llego acá. la columna actual es {col_actual}")
+                        return col_actual
+
+

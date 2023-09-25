@@ -5,12 +5,12 @@ from cuatro_en_linea import (crear_tablero, es_turno_de_x, insertar_simbolo)
 tablero_prueba = [
 
     [' ', ' ', ' ', ' '], 
-    [' ', ' ', ' ', ' '], 
-    [' ', ' ', ' ', ' '], 
+    ['O', ' ', ' ', ' '], 
+    ['O', ' ', ' ', ' '], 
     ['X', ' ', ' ', ' ']
 
     ]
-insertar_simbolo(tablero_prueba,0)
+print(insertar_simbolo(tablero_prueba,-1))
 
 for fila in tablero_prueba:
     # Imprime cada elemento de la fila sin espacio entre ellos

@@ -6,7 +6,7 @@ from typing import List
 import cuatro_en_linea
 
 # Si las pruebas se ven mal en tu terminal, probá cambiando el valor
-# de esta constante a True para desactivar los colores ANSI.
+# de esta constante a True para desactivar los colores qaANSI.
 TERMINAL_SIN_COLOR = False
 
 
