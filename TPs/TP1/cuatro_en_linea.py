@@ -1,13 +1,6 @@
 from typing import List
 
 #Funciones auxialiares
-def validar_dimensiones_tablero(n_filas: int, n_columnas: int) -> None:
-
-    assert type(n_filas) == int, "El numero de filas debe ser entero"
-    assert n_filas >= 3, "El numero de filas debe ser mayor o igual a 3" 
-
-    assert type(n_columnas) == int, "El numero de columnas debe ser entero"
-    assert n_columnas >= 3, "El numero de columnas debe ser mayor o igual a 3" 
 
 def contar_casilleros_llenos(tablero: List[List[str]]) -> int:
     """
@@ -22,25 +15,14 @@ def contar_casilleros_llenos(tablero: List[List[str]]) -> int:
     return total
 
 def es_columna_valida(tablero: List[List[str]], columna: int) -> bool:
-    if type(columna) != int:
-        print("Ha ingresado una columna invalida: Intente nuevamente")
-        return False
 
     if not (columna in range(0,len(tablero[0]))):
-        print("Columna fuera de rango. Intente nuevamente.")
         return False
 
     if tablero[0][columna] != " ":
-        print("La columna ingresada ya esta llena. Intente nuevamente")
         return False
 
     return True
-
-def coordenadas_elemento(tablero, elemento):
-    for i in range(len(tablero)):
-        for j in range(len(tablero[i])):
-            if tablero[i][j] is elemento:
-                return i,j
 
 #Fin Funciones auxiliares
 
@@ -71,8 +53,6 @@ def crear_tablero(n_filas: int, n_columnas: int) -> List[List[str]]:
         ]
     """
 
-    validar_dimensiones_tablero(n_filas, n_columnas)
-
     tablero = []
 
     for fila in range(n_filas):
@@ -101,10 +81,7 @@ def es_turno_de_x(tablero: List[List[str]]) -> bool:
           la función `insertar_simbolo`"""
     
     total_casilleros_llenos = contar_casilleros_llenos(tablero)
-
-    if(total_casilleros_llenos % 2 != 0): return False
-
-    return True
+    return total_casilleros_llenos % 2 == 0
 
 def insertar_simbolo(tablero: List[List[str]], columna: int) -> bool:
     """Dado un tablero y un índice de columna, se intenta colocar el símbolo del
@@ -132,7 +109,6 @@ def insertar_simbolo(tablero: List[List[str]], columna: int) -> bool:
                     tablero[fila][columna] = "O"
                     return True
     
-    print(f"columna insertada {columna}")
     return False
 
 
@@ -146,10 +122,10 @@ def tablero_completo(tablero: List[List[str]]) -> bool:
     """
 
     casilleros_totales = len(tablero) * len(tablero[0])
-    if(contar_casilleros_llenos(tablero) != casilleros_totales):
-        return False
-    return True
+    return contar_casilleros_llenos(tablero) == casilleros_totales
 
+def es_posicion_valida(indice, tablero):
+    return indice[0] in range(len(tablero)) and indice[1] in range(len(tablero[0]))
 
 def obtener_ganador(tablero: List[List[str]]) -> str:
     """Dado un tablero, devuelve el símbolo que ganó el juego.
@@ -174,33 +150,51 @@ def obtener_ganador(tablero: List[List[str]]) -> str:
             [' ', 'O', 'O', 'X', 'X', 'X', 'O'],
         ]
     """
-    for fila_actual in tablero:
-        for col_actual in fila_actual:
 
-            iterador_posicion = col_actual
+    movimientos_posibles = [
+                (1,0),
+                (-1,0), 
+                (0,1),
+                (0,-1),
+                (1,1),
+                (-1,1), 
+                (1,-1),
+                (-1,-1), 
+    ]
+    
+    for i in range(len(tablero)):
+        for j in range(len(tablero[0])):
 
-            i, j = coordenadas_elemento(tablero, iterador_posicion)
+            if tablero[i][j] == ' ': continue
 
-            contador = 1
-            
-            movimientos_posibles = [
-                [i+1,j],[i-1,j],
-                [i,j+1],[i,j-1],
-                [i+1,j+1],[i+1, j-1],
-                [i-1,j+1],[i-1, j-1]
-            ]
+            indice = (i,j)
 
             for movimiento in movimientos_posibles:
+                contador = 1
+
                 while True:
-                    nueva_posicion = tablero[movimiento[0]][movimiento[1]]
-                    if nueva_posicion is col_actual:
-                        contador += 1
-                        iterador_posicion = nueva_posicion
+                    nuevo_indice = (indice[0] + movimiento[0], indice[1] + movimiento[1])
+
+                    if(es_posicion_valida(nuevo_indice, tablero)):
+                        if tablero[nuevo_indice[0]][nuevo_indice[1]] == tablero[i][j]:
+                            contador += 1
+                            indice = nuevo_indice
+                        else:
+                            break
                     else:
                         break
-                        
+
                     if contador == 4:
-                        print(f"Llego acá. la columna actual es {col_actual}")
-                        return col_actual
+                        return tablero[nuevo_indice[0]][nuevo_indice[1]]
+    return ' '
+
+
+
+
+
+
+
+
+
 
 

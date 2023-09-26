@@ -19,4 +19,3 @@ for fila in tablero_prueba:
     print()
 
 
-
