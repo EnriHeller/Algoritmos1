@@ -1,0 +1,13 @@
+contacto,palabra,frecuencia
+Monica, hola, 37
+Monica, que, 1916
+Joey, hola, 38
+Joey, que, 2331
+Chandler, hola, 52
+Chandler, que, 2471
+Phoebe, hola, 44
+Phoebe, que, 2331
+Ross, hola, 70
+Ross, que, 2880
+Rachel, hola, 59
+Rachel, que, 2783

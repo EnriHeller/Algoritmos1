@@ -75,7 +75,7 @@ def main():
         print(f"\033[1m-Es turno de {simbolo}-\033[0m")
 
     def solicitar_columna():
-        print(f"Ingrese una columna entre 0 y {str(len(tablero) - 1)}. 's' para salir.")
+        print(f"Ingrese una columna entre 0 y {str(len(tablero[0]) - 1)}. 's' para salir.")
         columna = input("Entrada: ")
 
         if(columna == "s"):

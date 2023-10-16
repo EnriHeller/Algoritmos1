@@ -3,9 +3,6 @@ from typing import List
 #Funciones auxialiares
 
 def contar_casilleros_llenos(tablero: List[List[str]]) -> int:
-    """
-    DOC
-    """
     total = 0
 
     for fila in tablero:
