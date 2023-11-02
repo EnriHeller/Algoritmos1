@@ -1,0 +1,5 @@
+Juan,50
+Fernando,60
+Checho,60
+Pepe,20
+Julio,60
