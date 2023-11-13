@@ -23,7 +23,9 @@ class JuegoFlood:
         self.n_movimientos = 0
         self.pasos_solucion = Cola()
 
-        # Parte 3: Agregar atributos a la clase...
+        self.primer_tablero = self.flood.tablero
+        self.movs_hechos = Pila()
+        self.movs_deshechos = Pila()
 
 
     def cambiar_color(self, color):
@@ -35,10 +37,11 @@ class JuegoFlood:
         Argumentos:
             color (int): Nuevo color a seleccionar
         """
-        # Parte 3: Modificar el código...
-
 
         self.n_movimientos += 1
+        flood_actual = self.flood.clonar()
+        print(flood_actual.tablero[0][0])
+        self.movs_hechos.apilar(flood_actual)
         self.flood.cambiar_color(color)
 
 
@@ -47,17 +50,28 @@ class JuegoFlood:
         else:
             self.pasos_solucion = Cola()
 
+
     def deshacer(self):
         """
         Deshace el ultimo movimiento realizado si existen pasos previos,
         manejando las estructuras para deshacer y rehacer.
         """
-        # Parte 3: cambiar el `return` por tu código...
-        return
+        flood_guardado = self.movs_hechos.ver_tope()
+        print(flood_guardado.tablero[0][0])
+        """if not self.movs_hechos.esta_vacia():
+            ultimo_mov = self.movs_hechos.desapilar()
+            self.movs_deshechos.apilar(ultimo_mov)
+            if not self.movs_hechos.esta_vacia():
+                self.flood.tablero = self.movs_hechos.ver_tope().tablero
+            else:
+                self.flood.tablero = self.primer_tablero
+        else:
+            self.flood.tablero = self.primer_tablero
+        print(self.flood.tablero)"""
 
 
-        self.n_movimientos -= 1
-        self.pasos_solucion = Cola()
+        """self.n_movimientos -= 1
+        self.pasos_solucion = Cola()"""
 
 
     def rehacer(self):
