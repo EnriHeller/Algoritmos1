@@ -1,4 +1,4 @@
-from pila import Pila
+from ejercicios.parcial3.TDAs.pila import Pila
 
 elementos = [7,1,3,3,3,2,3,3,8,8,8,2]
 

@@ -1,4 +1,4 @@
-from pila import Pila
+from ejercicios.parcial3.TDAs.pila import Pila
 
 pila_prueba = Pila()
 for i in range (10):
