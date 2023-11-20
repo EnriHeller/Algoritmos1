@@ -104,7 +104,6 @@ class Flood:
                 self.verificar_color_casillero(nueva_fila, nueva_col, primer_color, color_nuevo)
 
 
-
     def cambiar_color(self, color_nuevo):
         """
         Asigna el nuevo color al Flood de la grilla. Es decir, a todas las
@@ -117,17 +116,21 @@ class Flood:
         primer_color = self.obtener_color(0,0)
         self.verificar_color_casillero(0, 0, primer_color, color_nuevo)
 
+    def copiar_tablero(self, viejo_tablero, nuevo_tablero):
+        for i_fila in range(len(viejo_tablero)):
+            for i_col in range(len(viejo_tablero[0])):
+                nuevo_tablero[i_fila][i_col] = viejo_tablero[i_fila][i_col]
 
     def clonar(self):
         """
         Devuelve:
             Flood: Copia del Flood actual
         """
-        atributos = self.__dict__
-        copia = Flood(atributos["alto"], atributos["ancho"])
-        copia.tablero = atributos["tablero"]
-        copia.rango_colores = atributos["rango_colores"]
-        return copia
+        nuevoFlood = Flood(self.alto, self.ancho)
+        self.copiar_tablero(self.tablero, nuevoFlood.tablero)
+        nuevoFlood.rango_colores = self.rango_colores
+        return nuevoFlood
+
 
 
     def esta_completado(self):
