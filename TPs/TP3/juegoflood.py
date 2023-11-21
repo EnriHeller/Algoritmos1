@@ -36,6 +36,7 @@ class JuegoFlood:
         Argumentos:
             color (int): Nuevo color a seleccionar
         """
+        print(self.flood.obtener_colores_proximos())
 
         self.n_movimientos += 1
 
@@ -85,8 +86,6 @@ class JuegoFlood:
             self.movs_hechos.apilar(flood_actual)
 
 
-
-
     def _calcular_movimientos(self):
         """
         Realiza una solución de pasos contra el Flood actual (en una Cola)
@@ -98,7 +97,7 @@ class JuegoFlood:
             int: Cantidad de movimientos que llevó a la solución encontrada.
             Cola: Pasos utilizados para llegar a dicha solución
         """
-        # Parte 4: tu código acá...
+
         return 999, Cola()
 
 

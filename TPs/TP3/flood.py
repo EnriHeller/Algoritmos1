@@ -89,7 +89,7 @@ class Flood:
     def es_posicion_valida(self, fila, columna):
         return fila in range(self.alto) and columna in range(self.ancho)
 
-    def verificar_color_casillero(self, i_fila, i_col, primer_color, color_nuevo):
+    def cambiar_color_x_casillero(self, i_fila, i_col, primer_color, color_nuevo):
 
         color_actual = self.obtener_color(i_fila,i_col)
 
@@ -101,7 +101,7 @@ class Flood:
         for i,j in self.movimientos_posibles:
             nueva_fila, nueva_col = i_fila+i, i_col+j
             if self.es_posicion_valida(nueva_fila,nueva_col):
-                self.verificar_color_casillero(nueva_fila, nueva_col, primer_color, color_nuevo)
+                self.cambiar_color_x_casillero(nueva_fila, nueva_col, primer_color, color_nuevo)
 
 
     def cambiar_color(self, color_nuevo):
@@ -114,7 +114,7 @@ class Flood:
             color_nuevo: Valor del nuevo color a asignar al Flood.
         """
         primer_color = self.obtener_color(0,0)
-        self.verificar_color_casillero(0, 0, primer_color, color_nuevo)
+        self.cambiar_color_x_casillero(0, 0, primer_color, color_nuevo)
 
     def copiar_tablero(self, viejo_tablero, nuevo_tablero):
         for i_fila in range(len(viejo_tablero)):
@@ -131,8 +131,6 @@ class Flood:
         nuevoFlood.rango_colores = self.rango_colores
         return nuevoFlood
 
-
-
     def esta_completado(self):
         """
         Indica si todas las coordenadas de grilla tienen el mismo color
@@ -140,5 +138,30 @@ class Flood:
         Devuelve:
             bool: True si toda la grilla tiene el mismo color
         """
-        # Parte 4: Tu código acá...
-        return False
+        
+        primer_casillero = self.tablero[0][0]
+
+        for fila in self.tablero:
+            for columna in fila:
+                if columna != primer_casillero:
+                    return False
+        return True
+
+    def __obtener_colores_proximos(self, i_fila, i_col, veces_por_color):
+            
+            color_actual = self.obtener_color(i_fila,i_col)
+
+            if color_actual != self.tablero[0][0]:
+
+                veces_por_color[color_actual] = veces_por_color.get(color_actual, 0) + 1
+
+                for i,j in self.movimientos_posibles:
+                    nueva_fila, nueva_col = i_fila+i, i_col+j
+                    if self.es_posicion_valida(nueva_fila,nueva_col):
+                        return self.obtener_colores_proximos(nueva_fila, nueva_col, veces_por_color)
+
+            else:
+                return veces_por_color
+    
+    def obtener_colores_proximos(self):
+        return self.__obtener_colores_proximos(0,0,{})
