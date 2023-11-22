@@ -147,21 +147,39 @@ class Flood:
                     return False
         return True
 
-    def __obtener_colores_proximos(self, i_fila, i_col, veces_por_color):
-            
-            color_actual = self.obtener_color(i_fila,i_col)
+    def escanear_frontera_flood(self, fil_actual, col_actual, n_colores, escaneados):
+        primer_color = self.obtener_color(0, 0)
+        estoy_en_flood = self.tablero[fil_actual][col_actual] == primer_color
 
-            if color_actual != self.tablero[0][0]:
+        if estoy_en_flood and (fil_actual, col_actual) not in escaneados:
+            escaneados.append((fil_actual, col_actual))
 
-                veces_por_color[color_actual] = veces_por_color.get(color_actual, 0) + 1
+            for i, j in self.movimientos_posibles:
+                nueva_fil = fil_actual + i
+                nueva_col = col_actual + j
 
-                for i,j in self.movimientos_posibles:
-                    nueva_fila, nueva_col = i_fila+i, i_col+j
-                    if self.es_posicion_valida(nueva_fila,nueva_col):
-                        return self.obtener_colores_proximos(nueva_fila, nueva_col, veces_por_color)
+                if self.es_posicion_valida(nueva_fil, nueva_col):
+                    color_nuevo = self.obtener_color(nueva_fil, nueva_col)
+                    es_color_distinto = color_nuevo != primer_color
 
-            else:
-                return veces_por_color
-    
-    def obtener_colores_proximos(self):
-        return self.__obtener_colores_proximos(0,0,{})
+                    if es_color_distinto:
+                        n_colores[color_nuevo] = n_colores.get(color_nuevo, 0) + 1
+
+                    self.escanear_frontera_flood(nueva_fil, nueva_col, n_colores, escaneados)
+
+    def obtener_frontera_flood(self):
+        casilleros_escaneados = []
+        n_colores = {}
+        self.escanear_frontera_flood(0, 0, n_colores, casilleros_escaneados)
+        return n_colores
+
+    def obtener_mejor_solucion(self):
+        opciones = self.obtener_frontera_flood()
+        color_seleccionado = None
+        cantidad_maxima = 0
+
+        for color, cantidad in opciones.items():
+            if cantidad > cantidad_maxima:
+                color_seleccionado = color
+
+        return color_seleccionado

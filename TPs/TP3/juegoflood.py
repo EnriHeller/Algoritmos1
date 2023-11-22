@@ -36,7 +36,6 @@ class JuegoFlood:
         Argumentos:
             color (int): Nuevo color a seleccionar
         """
-        print(self.flood.obtener_colores_proximos())
 
         self.n_movimientos += 1
 
@@ -85,20 +84,28 @@ class JuegoFlood:
             self.flood = ultimo_flood
             self.movs_hechos.apilar(flood_actual)
 
-
     def _calcular_movimientos(self):
         """
         Realiza una solución de pasos contra el Flood actual (en una Cola)
         y devuelve la cantidad de movimientos que llevó a esa solución.
 
-        COMPLETAR CON EL CRITERIO DEL ALGORITMO DE SOLUCIÓN.
+        Dicha solución, parte de evaluar la cantidad de veces que un color distinto al expandido, se posiciona como frontera de la expansión hasta el momento. Aquel color que aparezca más veces como frontera, será el próximo color escogido.
 
         Devuelve:
             int: Cantidad de movimientos que llevó a la solución encontrada.
             Cola: Pasos utilizados para llegar a dicha solución
         """
+        cantidad = 0
+        pasos = Cola()
+        flood_solucionado = self.flood.clonar()
+        
+        while not flood_solucionado.esta_completado():
+            mejor_opcion = flood_solucionado.obtener_mejor_solucion()
+            cantidad +=1
+            pasos.encolar(mejor_opcion)
+            flood_solucionado.cambiar_color(mejor_opcion)
 
-        return 999, Cola()
+        return cantidad, pasos
 
 
     def hay_proximo_paso(self):
