@@ -125,7 +125,10 @@ def obtener_cantidad_de_inicios(mensajes:list)->dict:
     cantidad_de_inicios = {}
 
     for mensaje in mensajes:
-        inicio = mensaje.split()[0]
+        try:
+            inicio = mensaje.split()[0]
+        except IndexError:
+            pass
 
         if inicio[-1] == ".": continue
         
@@ -153,7 +156,6 @@ def obtener_palabras_siguientes(palabra_filtro:str, mensajes:[str])->dict:
 
     for msj in mensajes:
         palabras_msj = msj.split()
-
         for i, palabra in enumerate(palabras_msj):
             if palabra == palabra_filtro and i + 1 < len(palabras_msj):
                 p_siguente = palabras_msj[i + 1]

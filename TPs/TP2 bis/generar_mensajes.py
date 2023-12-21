@@ -9,7 +9,6 @@ def generar_mensaje(ruta):
     mensajes = utils.filtrar_mensajes_de_contacto(ruta, contacto_seleccionado)
 
     inicios_de_mensaje = utils.obtener_cantidad_de_inicios(mensajes) 
-
     primer_palabra = utils.obtener_palabra_probable(inicios_de_mensaje)
 
     palabras_mensaje = [primer_palabra]
@@ -22,6 +21,8 @@ def generar_mensaje(ruta):
 
         palabras_siguientes = utils.obtener_palabras_siguientes(ultima_palabra, mensajes)
 
-        nueva_palabra = utils.obtener_palabra_probable(palabras_siguientes)
-
-        palabras_mensaje.append(nueva_palabra)
+        if palabras_siguientes != {}:
+            nueva_palabra = utils.obtener_palabra_probable(palabras_siguientes)
+            palabras_mensaje.append(nueva_palabra)
+        else:
+            palabras_mensaje[-1] = palabras_mensaje[-1] + "."
